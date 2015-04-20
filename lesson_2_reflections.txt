@@ -10,21 +10,31 @@ How is the staging area different from the working directory and the repository?
 What value do you think it offers?
 
 	Not all files in a directory are logically grouped together for commits.  This allows you to breat up commits into logical units.
+	Also it allows you to share new code with others and sitll have a working production level master.
 
 How can you use the staging area to make sure you have one commit per logical
 change?
 
+	This is helpful if you've made changes to several files but only one to commit changes in one file not the others.
 
 What are some situations when branches would be helpful in keeping your history
 organized? How would branches help?
 
+	When you want to creat different versions of a project with different behaviour.  Branches can help organize and track these changes without copying files or having to create a new working space.
+
 How do the diagrams help you visualize the branch structure?
+
+	It's easier to understand when you have a picture.  It can get really complicated really fast and being able to visualized helps.
 
 What is the result of merging two branches together? Why do we represent it in
 the diagram the way we do?
+	
+	Merging branches takes all changes on each branch to a common ancestor and places them into a single branch.  The diagram helps us to see the commits that don't share an ancestor that will be part of the merge.
 
 What are the pros and cons of Gitâ€™s automatic merging vs. always doing merges
 manually?
+
+	Pros: faster, easier on the eyes.  Cons: can't resolve complex changes.
 
 
 Useful commands:
@@ -36,3 +46,92 @@ git status
 git add
 adds a file to the staging area before being committed.
 
+git diff
+compares working directory to staging area
+
+git diff --staged 
+compares staging area to repository
+
+git diff commit1 commit2
+compares commits.
+
+git reset --hard
+reset the staging area and working directory ALL CHANGES LOST.
+
+git branch 
+displays the branch you are on.
+
+git branch <name>
+create new branch.
+
+git checkout <branch-name>
+gets the branch you want to work on.
+
+git log -- graph -- oneline <branch1> <branch2>
+graphical log.
+
+git log --graph --oneline master coins.
+
+git checkout -b <new branch name>  
+is the same as these two commands:
+git branch <new branch name>
+git checkout <new branch name>
+
+
+git merge <branch1> <branch2>
+merges branch2 into branch1
+
+git show <commit id>
+shows the diff of a commit and its parent.
+
+git branch -d <branch name>
+delete a branch label
+
+Merge example with conflicts:
+============================================
+david (easy-mode) asteroids $ git merge master easy-mode
+Auto-merging game.js
+CONFLICT (content): Merge conflict in game.js
+Automatic merge failed; fix conflicts and then commit the result.
+david (easy-mode *+|MERGING) asteroids $ vi game.js
+sdavid (easy-mode *+|MERGING) asteroids $ vi game.js
+david (easy-mode *+|MERGING) asteroids $ git status
+On branch easy-mode
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+
+	both modified:   game.js
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	game.js~
+
+no changes added to commit (use "git add" and/or "git commit -a")
+david (easy-mode *+|MERGING) asteroids $ git add game.js
+david (easy-mode +|MERGING) asteroids $ git status
+On branch easy-mode
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+
+	modified:   game.js
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	game.js~
+
+david (easy-mode +|MERGING) asteroids $ 
+
+================================
+
+
+	Merge branch 'master' into easy-mode
+
+	Conflicts:
+		game.js
